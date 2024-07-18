@@ -6,9 +6,8 @@ import { useState } from "react"
 import { usePathname } from "next/navigation"
 
 const links = [
-  { path: "/", text: "Home" },
-  { path: "/about", text: "About" },
-  { path: "/works", text: "Works" },
+  { path: "/solutions", text: "Solutions" },
+  { path: "/a-propos", text: "À propos" },
 ]
 
 function NavLinks({ toggleMenu }: { toggleMenu: () => void }) {
@@ -28,6 +27,12 @@ function NavLinks({ toggleMenu }: { toggleMenu: () => void }) {
           {link.text}
         </Link>
       ))}
+      <Link
+        className="md:order-last inline-block px-4 py-2 font-body text-white bg-blue-500 rounded-lg hover:bg-blue-400"
+        href="nouvelle-solution"
+      >
+        Nouvelle solution
+      </Link>
     </>
   )
 }
@@ -40,19 +45,19 @@ export default function NavBar() {
   }
 
   return (
-    <div className="w-full max-w-2xl m-auto bg-white">
+    <div className="w-full bg-white">
       <div className="border-b-2">
         <nav className="px-6 h-16 flex items-center gap-4">
           <Link className="flex items-center mr-auto" href="/">
             <Image
-              src="logo_thibault.svg"
+              src="pyreneesmobilite_logo.svg"
               width={0}
               height={0}
               alt="Company logo"
-              className="w-6 h-auto"
+              className="w-20 h-auto"
             />
             <span className="px-1 font-sans font-medium">
-              thibaultChevreteau
+              Pyrénées Mobilité
             </span>
           </Link>
 
@@ -60,20 +65,6 @@ export default function NavBar() {
           <div className="hidden md:flex gap-4">
             <NavLinks toggleMenu={toggleMenu} />
           </div>
-
-          <Link
-            className="md:order-last"
-            href="https://github.com/username"
-            target="_blank"
-          >
-            <Image
-              src="github-mark.svg"
-              width={0}
-              height={0}
-              alt="Github logo"
-              className="w-6 h-auto"
-            />
-          </Link>
 
           {/* Menu button for mobile view */}
           <div className="md:hidden flex items-center">

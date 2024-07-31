@@ -61,8 +61,8 @@ export default function NavBar() {
             </span>
           </Link>
 
-          {/* Conditionally render NavLink elements before GitHub icon for larger screens */}
-          <div className="hidden md:flex gap-4">
+          {/* Conditionally render NavLink elements for larger screens */}
+          <div className="hidden md:flex gap-4 items-center">
             <NavLinks toggleMenu={toggleMenu} />
           </div>
 

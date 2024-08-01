@@ -11,8 +11,3 @@ export type Solution = {
   contact?: string
   details?: string
 }
-
-export type CoordinatesField = {
-  latitude: number
-  longitude: number
-}

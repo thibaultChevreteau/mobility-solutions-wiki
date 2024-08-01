@@ -2,23 +2,27 @@
 // Why attributes to sql functions are usefull ?
 
 import { sql } from "@vercel/postgres"
-import { CoordinatesField } from "./definitions"
 import { unstable_noStore as noStore } from "next/cache"
 
-export async function fetchCoordinates() {
+export async function fetchSolutionCardData() {
   noStore()
   try {
-    const data = await sql<CoordinatesField>`
+    const data = await sql`
         SELECT
+        id,  
+        imgUrl,
+          category,
+          name,
+          description,
           latitude,
           longitude
         FROM solutions
       `
 
-    const coordinates = data.rows
-    return coordinates
+    const solutionsCardData = data.rows
+    return solutionsCardData
   } catch (err) {
     console.error("Database Error:", err)
-    throw new Error("Failed to fetch all coordinates.")
+    throw new Error("Failed to fetch solutions card data.")
   }
 }

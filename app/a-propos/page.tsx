@@ -1,7 +1,9 @@
-import { fetchCoordinates } from "@/lib/data"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "À propos",
+}
 
 export default async function Page() {
-  const coordinates = await fetchCoordinates()
-  console.log(coordinates)
-  return <p>Coordinates</p>
+  return <p>À propos</p>
 }

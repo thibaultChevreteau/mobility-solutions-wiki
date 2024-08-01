@@ -22,7 +22,7 @@ export default function HomePage() {
           </h1>
           <p>
             Ce wiki collaboratif vise à recenser et présenter les solutions de
-            mobilité innovantes et durables dans les Pyrénées et au delà.
+            mobilité durables dans les Pyrénées et au delà.
           </p>
           <div className="mt-10">
             <Link

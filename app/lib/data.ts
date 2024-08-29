@@ -28,6 +28,9 @@ const pool = new Pool({
   },
 })
 
+const tableName =
+  process.env.NODE_ENV === "production" ? "solutions" : "solutionsdev"
+
 export async function fetchSolutionCardData() {
   noStore()
   try {
@@ -40,7 +43,7 @@ export async function fetchSolutionCardData() {
         description,
         latitude,
         longitude
-      FROM solutions
+      FROM ${tableName}
     `)
 
     const solutionsCardData = result.rows

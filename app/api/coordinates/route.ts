@@ -27,12 +27,15 @@ const pool = new Pool({
   },
 })
 
+const tableName =
+  process.env.NODE_ENV === "production" ? "solutions" : "solutionsdev"
+
 export async function GET() {
   try {
     // Execute the SQL query using pool.query
     const result = await pool.query(`
       SELECT latitude, longitude
-      FROM solutions
+      FROM ${tableName}
     `)
 
     return NextResponse.json(result.rows)

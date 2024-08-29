@@ -14,7 +14,6 @@
     "@nextui-org/system": "^2.2.5",
     "@nextui-org/theme": "^2.2.9",
     "@nextui-org/tooltip": "^2.0.39",
-    "@vercel/postgres": "^0.9.0",
     "framer-motion": "^11.3.20",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",

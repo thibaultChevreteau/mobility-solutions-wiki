@@ -1,7 +1,7 @@
 //import switch from a propos
 //modify tooltip without using nextui ?
 
-import { fetchSolutionCardDataRDS } from "@/lib/data"
+import { fetchSolutionCardData } from "@/lib/data"
 import Image from "next/image"
 import { Tooltip } from "@nextui-org/tooltip"
 
@@ -36,7 +36,7 @@ const isPointInPolygon = (
 }
 
 export default async function Page() {
-  const solutionsCardData = await fetchSolutionCardDataRDS()
+  const solutionsCardData = await fetchSolutionCardData()
 
   return (
     <div>

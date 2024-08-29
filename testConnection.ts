@@ -14,6 +14,7 @@ try {
 } catch (error) {
   throw new Error("Failed to decode RDS_CA_CERT_BASE64.")
 }
+
 const pool = new Pool({
   host: process.env.RDS_HOST,
   port: Number(process.env.RDS_PORT),

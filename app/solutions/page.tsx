@@ -1,4 +1,4 @@
-//import switch from a propos
+//import switch from a props
 //modify tooltip without using nextui ?
 
 import { fetchSolutionCardData } from "@/lib/data"

@@ -48,7 +48,15 @@ export default function NavBar() {
     <div className="w-full bg-white">
       <div className="border-b-2">
         <nav className="px-6 h-16 flex items-center gap-4">
-          <Link className="flex items-center mr-auto" href="/">
+          <Link
+            className="flex items-center mr-auto"
+            href="/"
+            onClick={() => {
+              if (isOpen) {
+                setIsOpen(false)
+              }
+            }}
+          >
             <Image
               src="pyreneesmobilite_logo.svg"
               width={0}

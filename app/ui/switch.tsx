@@ -1,4 +1,3 @@
-// components/Switch.js
 export default function Switch({
   isOn,
   handleToggle,

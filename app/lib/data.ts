@@ -4,10 +4,19 @@
 import { sql } from "@vercel/postgres"
 import { unstable_noStore as noStore } from "next/cache"
 import { Pool } from "pg"
-import fs from "fs"
 
-const caCert = fs.readFileSync("certificates/eu-west-3-bundle.pem")
+const caCertBase64 = process.env.RDS_CA_CERT_BASE64
 
+if (!caCertBase64) {
+  throw new Error("RDS_CA_CERT_BASE64 environment variable is not set.")
+}
+
+let caCert
+try {
+  caCert = Buffer.from(caCertBase64, "base64").toString("utf-8")
+} catch (error) {
+  throw new Error("Failed to decode RDS_CA_CERT_BASE64.")
+}
 const pool = new Pool({
   host: process.env.RDS_HOST,
   port: Number(process.env.RDS_PORT),

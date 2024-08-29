@@ -34,7 +34,7 @@ export async function GET() {
   try {
     // Execute the SQL query using pool.query
     const result = await pool.query(`
-      SELECT latitude, longitude
+      SELECT latitude, longitude, name
       FROM ${tableName}
     `)
 

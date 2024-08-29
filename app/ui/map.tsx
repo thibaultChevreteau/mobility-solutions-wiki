@@ -1,5 +1,3 @@
-//review the whole component
-
 "use client"
 
 import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet"
@@ -9,40 +7,47 @@ import "leaflet-defaulticon-compatibility"
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
 import React, { useEffect, useState } from "react"
 
-type Coordinate = {
+// Define a new type that includes the name
+type SolutionLocation = {
   latitude: string
   longitude: string
+  name: string
 }
 
 const Map: React.FC = () => {
-  const [coordinates, setCoordinates] = useState<[number, number][]>([])
+  const [locations, setLocations] = useState<
+    { position: [number, number]; name: string }[]
+  >([])
 
   useEffect(() => {
-    const fetchCoordinates = async () => {
+    const fetchLocations = async () => {
       try {
-        const response = await fetch("/api/coordinates")
-        const data: Coordinate[] = await response.json()
+        const response = await fetch("/api/solution-locations")
+        const data: SolutionLocation[] = await response.json()
 
-        // Convert coordinates to number and filter out invalid ones
-        const validCoordinates = data
-          .map(({ latitude, longitude }) => {
+        // Convert locations to number and filter out invalid ones
+        const validLocations = data
+          .map(({ latitude, longitude, name }) => {
             const lat = parseFloat(latitude)
             const lon = parseFloat(longitude)
             // Validate latitude and longitude ranges
             if (lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
-              return [lat, lon] as [number, number]
+              return { position: [lat, lon] as [number, number], name }
             }
             return null
           })
-          .filter((coord): coord is [number, number] => coord !== null)
+          .filter(
+            (loc): loc is { position: [number, number]; name: string } =>
+              loc !== null
+          )
 
-        setCoordinates(validCoordinates)
+        setLocations(validLocations)
       } catch (error) {
         console.error("Error fetching coordinates:", error)
       }
     }
 
-    fetchCoordinates()
+    fetchLocations()
   }, [])
 
   return (
@@ -56,9 +61,9 @@ const Map: React.FC = () => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       <MarkerClusterGroup maxClusterRadius={25}>
-        {coordinates.map((coord, index) => (
-          <Marker key={index} position={coord}>
-            <Popup>Tarbes</Popup>
+        {locations.map(({ position, name }, index) => (
+          <Marker key={index} position={position}>
+            <Popup>{name}</Popup>
           </Marker>
         ))}
       </MarkerClusterGroup>

@@ -3,6 +3,56 @@ import Link from "next/link"
 import { useMemo } from "react"
 import dynamic from "next/dynamic"
 
+const categories = [
+  {
+    name: "Véhicules",
+    description: "Solutions innovantes pour véhicules, incluant des technologies écoénergétiques, des systèmes de sécurité avancés et des innovations en conduite autonome.",
+  },
+  {
+    name: "Aménagements",
+    description: "Idées d'aménagement durable pour optimiser les espaces liés à la mobilité, comme les infrastructures de transport et les stations de recharge.",
+  },
+  {
+    name: "Application",
+    description: "Applications intelligentes pour la mobilité, conçues pour améliorer les trajets, optimiser les itinéraires et faciliter la gestion des transports.",
+  },
+  {
+    name: "Sensibilisation",
+    description: "Ressources innovantes pour sensibiliser et éduquer sur des enjeux de mobilité durable et des pratiques de transport responsables.",
+  },
+  {
+    name: "Atelier",
+    description: "Ateliers pratiques sur des sujets de mobilité, allant des innovations en transport aux nouvelles technologies en infrastructures.",
+  },
+  {
+    name: "Autres",
+    description: "Solutions variées et durables liées à la mobilité, couvrant des besoins spécifiques non abordés ailleurs dans le domaine du transport.",
+  },
+];
+
+
+function CategoryCard({ name, description }: { name: string, description: string }) {
+  // Function to convert name to a URL-friendly alias
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()          // Convert to lowercase
+      .replace(/\s+/g, '-')   // Replace spaces with hyphens
+      .replace(/[^\w-]+/g, ''); // Remove all non-word chars
+  };
+
+  const slug = generateSlug(name);
+
+  return (
+    <div className="bg-gray-200 p-6 rounded-lg min-w-72 max-w-96">
+      <h3 className="text-xl font-bold mb-2">{name}</h3>
+      <p>{description}</p>
+      <Link href={`/${slug}`} className="text-gray-500 underline mt-2">
+        Voir les solutions de cette catégorie ->
+      </Link>
+    </div>
+  );
+}
+
 export default function HomePage() {
   const Map = useMemo(
     () =>
@@ -37,6 +87,18 @@ export default function HomePage() {
           <Map />
         </div>
       </div>
+      <h2 className="text-2xl font-bold mt-10 text-center">
+        Découvrir les catégories
+      </h2>
+      <div className="flex gap-6 overflow-x-auto md:overflow-x-hidden md:flex-wrap mt-10">
+        {categories.map((category) => (
+          <CategoryCard
+            key={category.name}
+            name={category.name}
+            description={category.description}
+          />
+        ))}
+      </div>
     </div>
-  )
+  );
 }

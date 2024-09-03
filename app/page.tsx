@@ -47,6 +47,8 @@ function CategoryCard({
   const generateSlug = (name: string) => {
     return name
       .toLowerCase() // Convert to lowercase
+      .normalize("NFD") // Normalize to decomposed form
+      .replace(/[\u0300-\u036f]/g, "") // Remove diacritical marks
       .replace(/\s+/g, "-") // Replace spaces with hyphens
       .replace(/[^\w-]+/g, "") // Remove all non-word chars
   }
@@ -54,11 +56,11 @@ function CategoryCard({
   const slug = generateSlug(name)
 
   return (
-    <div className="bg-gray-200 p-6 rounded-lg min-w-72 max-w-96">
+    <div className="bg-gray-200 p-6 rounded-lg min-w-64 max-w-96">
       <h3 className="text-xl font-bold mb-2">{name}</h3>
-      <p>{description}</p>
-      <Link href={`/${slug}`} className="text-gray-500 underline mt-2">
-        Voir les solutions de cette catégorie -&gt;
+      <p className="mb-4">{description}</p>
+      <Link href={`/${slug}`} className="text-gray-500 underline">
+        Aller à la catégorie -&gt;
       </Link>
     </div>
   )

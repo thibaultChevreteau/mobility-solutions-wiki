@@ -3,10 +3,11 @@ export type Solution = {
   name: string
   description: string
   category: string
-  imgUrl: string
+  imgurl: string
   imgId: string
   latitude: number
   longitude: number
+  isLocal: boolean
   website?: string
   contact?: string
   details?: string

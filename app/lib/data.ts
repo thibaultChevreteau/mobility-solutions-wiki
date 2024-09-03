@@ -1,4 +1,4 @@
-// Why attributes to sql functions are usefull ?
+// Since I load the data in a client component I am not using anymore this function
 
 import { unstable_noStore as noStore } from "next/cache"
 import { Pool } from "pg"

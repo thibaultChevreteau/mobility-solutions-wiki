@@ -22,7 +22,7 @@ const Map: React.FC = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch("/api/solution-locations")
+        const response = await fetch("/api/solutions/locations")
         const data: SolutionLocation[] = await response.json()
 
         // Convert locations to number and filter out invalid ones

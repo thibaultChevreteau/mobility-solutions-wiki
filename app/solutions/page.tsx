@@ -1,9 +1,13 @@
 //import switch from a props
 //modify tooltip without using nextui ?
+"use client"
 
 import { fetchSolutionCardData } from "@/lib/data"
 import Image from "next/image"
 import { Tooltip } from "@nextui-org/tooltip"
+import { useEffect, useState } from "react"
+import { Solution } from "@/lib/definitions"
+import Switch from "@/ui/switch"
 
 const pyreneesPolygon: [number, number][] = [
   [43.81587270305823, -1.7816068109607344],
@@ -35,45 +39,62 @@ const isPointInPolygon = (
   return inside
 }
 
-export default async function Page() {
-  const solutionsCardData = await fetchSolutionCardData()
+export default function Page() {
+  const [solutionsCardData, setSolutionsCardData] = useState<Solution[]>([])
+  const [localOnly, setLocalOnly] = useState(false)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/solutions/overview")
+        const data = await response.json()
+        setSolutionsCardData(data)
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  const handleToggle = () => {
+    setLocalOnly(!localOnly)
+  }
 
   return (
     <div>
       <h1 className="text-3xl text-center font-bold mb-5 mt-16">
         Solutions de mobilité
       </h1>
-      <p className="text-center text-gray-600 mb-10">
+      <p className="text-center text-gray-600 mb-10 mx-4">
         Catalogue de solutions durables pour les habitants des Pyrénées
       </p>
+      <Switch isOn={localOnly} handleToggle={handleToggle} />
       <div className="flex flex-wrap gap-5 justify-center max-w-[1100px] mx-auto">
         {solutionsCardData.map(cardData => {
-          const isInPyrenees = isPointInPolygon(
-            [cardData.latitude, cardData.longitude],
-            pyreneesPolygon
-          )
+          if (localOnly && !cardData.isLocal) {
+            return null
+          }
           return (
             <div
               key={cardData.id}
               className="relative mb-4 max-w-[20rem] rounded-lg shadow-md"
             >
-              <a href={cardData.link} className="no-underline text-inherit">
-                <Image
-                  src={cardData.imgurl}
-                  alt={cardData.name}
-                  width={500}
-                  height={300}
-                  className="w-full h-[200px] object-cover"
-                />
-                <div className="p-4 pb-2 mb-2">
-                  <p className="mb-2 text-sm text-gray-400">
-                    {cardData.category}
-                  </p>
-                  <h2 className="font-bold text-lg mb-2">{cardData.name}</h2>
-                  <p className="text-base">{cardData.description}</p>
-                </div>
-              </a>
-              {isInPyrenees && (
+              <Image
+                src={cardData.imgurl}
+                alt={cardData.name}
+                width={500}
+                height={300}
+                className="w-full h-[200px] object-cover"
+              />
+              <div className="p-4 pb-2 mb-2">
+                <p className="mb-2 text-sm text-gray-400">
+                  {cardData.category}
+                </p>
+                <h2 className="font-bold text-lg mb-2">{cardData.name}</h2>
+                <p className="text-base">{cardData.description}</p>
+              </div>
+              {cardData.isLocal && (
                 <div className="absolute -bottom-2.5 -right-2.5 z-10">
                   <Tooltip
                     content="Solution locale"

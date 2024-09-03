@@ -1,9 +1,7 @@
-import { NextResponse } from "next/server"
-
 import { Pool } from "pg"
 
+// Retrieve and decode the CA certificate from environment variables
 const caCertBase64 = process.env.RDS_CA_CERT_BASE64
-
 if (!caCertBase64) {
   throw new Error("RDS_CA_CERT_BASE64 environment variable is not set.")
 }
@@ -15,6 +13,7 @@ try {
   throw new Error("Failed to decode RDS_CA_CERT_BASE64.")
 }
 
+// Create a new pool instance with database configuration
 const pool = new Pool({
   host: process.env.RDS_HOST,
   port: Number(process.env.RDS_PORT),
@@ -30,20 +29,5 @@ const pool = new Pool({
 const tableName =
   process.env.NODE_ENV === "production" ? "solutions" : "solutionsdev"
 
-export async function GET() {
-  try {
-    // Execute the SQL query using pool.query
-    const result = await pool.query(`
-      SELECT latitude, longitude, name
-      FROM ${tableName}
-    `)
-
-    return NextResponse.json(result.rows)
-  } catch (error) {
-    console.error("Error fetching coordinates:", error)
-    return NextResponse.json(
-      { error: "Error fetching coordinates" },
-      { status: 500 }
-    )
-  }
-}
+// Export the pool and tableName
+export { pool, tableName }

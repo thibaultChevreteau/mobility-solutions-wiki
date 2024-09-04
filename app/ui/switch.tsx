@@ -7,7 +7,6 @@ export default function Switch({
 }) {
   return (
     <div className="flex items-center">
-      <span className="mr-2 text-gray-700">{isOn ? "On" : "Off"}</span>
       <div className="relative">
         <input
           type="checkbox"
@@ -17,14 +16,14 @@ export default function Switch({
           className="sr-only"
         />
         <div
-          className={`w-14 h-8 flex items-center cursor-pointer rounded-full ${
+          className={`w-8 h-5 flex items-center cursor-pointer rounded-full ${
             isOn ? "bg-blue-500" : "bg-gray-300"
           }`}
           onClick={handleToggle}
         >
           <div
-            className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform ${
-              isOn ? "translate-x-7" : "translate-x-1"
+            className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
+              isOn ? "translate-x-3.5" : "translate-x-0.5"
             }`}
           />
         </div>

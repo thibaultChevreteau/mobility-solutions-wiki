@@ -1,4 +1,3 @@
-//import switch from a props
 //modify tooltip without using nextui ?
 "use client"
 
@@ -6,42 +5,20 @@ import { fetchSolutionCardData } from "@/lib/data"
 import Image from "next/image"
 import { Tooltip } from "@nextui-org/tooltip"
 import { useEffect, useState } from "react"
-import { Solution } from "@/lib/definitions"
+import { categories, Solution } from "@/lib/definitions"
 import Switch from "@/ui/switch"
+import MultiSelect from "@/ui/multiSelect"
+import { log } from "console"
 
-const pyreneesPolygon: [number, number][] = [
-  [43.81587270305823, -1.7816068109607344],
-  [43.325004104008386, 0.12968726385829804],
-  [43.03429988630792, 1.6224671723866744],
-  [42.846840289300026, 3.3509492754749224],
-  [41.8970711332641, 3.4467046638360386],
-  [42.44605478246113, 0.011188027224996892],
-  [42.76985792722391, -1.8072704992870186],
-  [43.47097428016845, -2.393870064846836],
-]
-
-const isPointInPolygon = (
-  point: [number, number],
-  polygon: [number, number][]
-): boolean => {
-  const [x, y] = point
-  let inside = false
-
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const [xi, yi] = polygon[i]
-    const [xj, yj] = polygon[j]
-
-    const intersect =
-      yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi
-    if (intersect) inside = !inside
-  }
-
-  return inside
-}
+const options = categories.map(category => ({
+  label: category.name,
+  value: category.name,
+}))
 
 export default function Page() {
   const [solutionsCardData, setSolutionsCardData] = useState<Solution[]>([])
   const [localOnly, setLocalOnly] = useState(false)
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,6 +38,23 @@ export default function Page() {
     setLocalOnly(!localOnly)
   }
 
+  const handleCategoryChange = (selected: string[]) => {
+    setSelectedCategories(selected)
+  }
+
+  const filteredSolutions = solutionsCardData.filter(cardData => {
+    const matchesCategory =
+      selectedCategories.length === 0 ||
+      selectedCategories.some(
+        selectedCategory =>
+          selectedCategory.toLowerCase() === cardData.category.toLowerCase()
+      )
+
+    const matchesLocal = !localOnly || cardData.isLocal
+
+    return matchesCategory && matchesLocal
+  })
+
   return (
     <div>
       <h1 className="text-3xl text-center font-bold mb-5 mt-16">
@@ -69,9 +63,19 @@ export default function Page() {
       <p className="text-center text-gray-600 mb-10 mx-4">
         Catalogue de solutions durables pour les habitants des Pyrénées
       </p>
-      <Switch isOn={localOnly} handleToggle={handleToggle} />
+      <div className="flex text-gray-600 justify-center items-center border-y-2 mb-2 py-2 gap-10">
+        <div className="flex">
+          <p className="text-sm mx-2">Solutions locales</p>
+          <Switch isOn={localOnly} handleToggle={handleToggle} />
+        </div>
+        <MultiSelect
+          options={options}
+          value={selectedCategories}
+          onChange={handleCategoryChange}
+        />
+      </div>
       <div className="flex flex-wrap gap-5 justify-center max-w-[1100px] mx-auto">
-        {solutionsCardData.map(cardData => {
+        {filteredSolutions.map(cardData => {
           if (localOnly && !cardData.isLocal) {
             return null
           }

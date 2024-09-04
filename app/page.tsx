@@ -2,39 +2,7 @@ import Link from "next/link"
 
 import { useMemo } from "react"
 import dynamic from "next/dynamic"
-
-const categories = [
-  {
-    name: "Véhicules",
-    description:
-      "Solutions innovantes pour véhicules, incluant des technologies écoénergétiques, des systèmes de sécurité avancés et des innovations en conduite autonome.",
-  },
-  {
-    name: "Aménagements",
-    description:
-      "Idées d'aménagement durable pour optimiser les espaces liés à la mobilité, comme les infrastructures de transport et les stations de recharge.",
-  },
-  {
-    name: "Application",
-    description:
-      "Applications intelligentes pour la mobilité, conçues pour améliorer les trajets, optimiser les itinéraires et faciliter la gestion des transports.",
-  },
-  {
-    name: "Sensibilisation",
-    description:
-      "Ressources innovantes pour sensibiliser et éduquer sur des enjeux de mobilité durable et des pratiques de transport responsables.",
-  },
-  {
-    name: "Atelier",
-    description:
-      "Ateliers pratiques sur des sujets de mobilité, allant des innovations en transport aux nouvelles technologies en infrastructures.",
-  },
-  {
-    name: "Autres",
-    description:
-      "Solutions variées et durables liées à la mobilité, couvrant des besoins spécifiques non abordés ailleurs dans le domaine du transport.",
-  },
-]
+import { categories } from "./lib/definitions"
 
 function CategoryCard({
   name,

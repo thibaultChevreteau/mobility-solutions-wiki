@@ -29,7 +29,6 @@ export default function Page() {
       <Switch isOn={isOn} handleToggle={handleToggle} />
       <div>
         <h1 className="text-2xl font-semibold mb-4">MultiSelect Component</h1>
-        <MultiSelect options={options} />
       </div>
     </div>
   )

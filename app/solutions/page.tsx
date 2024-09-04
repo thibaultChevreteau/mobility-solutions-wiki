@@ -1,4 +1,3 @@
-//modify tooltip without using nextui ?
 "use client"
 
 import Image from "next/image"
@@ -22,9 +21,13 @@ export default function Page() {
   const searchParams = useSearchParams()
   const categoryParam = searchParams.get("category")
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    categoryParam ? [categoryParam] : []
-  )
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+
+  useEffect(() => {
+    if (categoryParam) {
+      setSelectedCategories([categoryParam])
+    }
+  }, [categoryParam])
 
   useEffect(() => {
     const fetchData = async () => {

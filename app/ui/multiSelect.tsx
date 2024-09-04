@@ -78,10 +78,10 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         <ul className="absolute right-0 z-10 mt-1 bg-white rounded max-h-80 overflow-y-auto shadow-lg min-w-max">
           {value.length > 0 && (
             <li
-              className="flex justify-center items-center p-2 hover:bg-gray-100 cursor-pointer whitespace-nowrap"
+              className="flex justify-center italic items-center p-2 hover:bg-gray-100 cursor-pointer whitespace-nowrap"
               onClick={handleUnselectAll}
             >
-              -- Toutes --
+              -- Réinitialiser --
             </li>
           )}
           {options.map(option => (

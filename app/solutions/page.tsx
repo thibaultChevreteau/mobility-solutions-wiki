@@ -1,24 +1,30 @@
 //modify tooltip without using nextui ?
 "use client"
 
-import { fetchSolutionCardData } from "@/lib/data"
 import Image from "next/image"
 import { Tooltip } from "@nextui-org/tooltip"
 import { useEffect, useState } from "react"
 import { categories, Solution } from "@/lib/definitions"
 import Switch from "@/ui/switch"
 import MultiSelect from "@/ui/multiSelect"
-import { log } from "console"
+import { useSearchParams } from "next/navigation"
+import { generateSlug } from "@/lib/utils"
 
 const options = categories.map(category => ({
   label: category.name,
-  value: category.name,
+  value: generateSlug(category.name),
 }))
 
 export default function Page() {
   const [solutionsCardData, setSolutionsCardData] = useState<Solution[]>([])
   const [localOnly, setLocalOnly] = useState(false)
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+
+  const searchParams = useSearchParams()
+  const categoryParam = searchParams.get("category")
+
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    categoryParam ? [categoryParam] : []
+  )
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,8 +52,7 @@ export default function Page() {
     const matchesCategory =
       selectedCategories.length === 0 ||
       selectedCategories.some(
-        selectedCategory =>
-          selectedCategory.toLowerCase() === cardData.category.toLowerCase()
+        selectedCategory => selectedCategory === generateSlug(cardData.category)
       )
 
     const matchesLocal = !localOnly || cardData.isLocal
@@ -65,7 +70,7 @@ export default function Page() {
       </p>
       <div className="flex text-gray-600 justify-center items-center border-y-2 mb-2 py-2 gap-10">
         <div className="flex">
-          <p className="text-sm mx-2">Solutions locales</p>
+          <p className="mx-2">Solutions locales</p>
           <Switch isOn={localOnly} handleToggle={handleToggle} />
         </div>
         <MultiSelect

@@ -27,6 +27,11 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     onChange(newSelectedItems)
   }
 
+  const handleUnselectAll = () => {
+    onChange([]) // Unselect all options
+    setIsOpen(false) // Close the dropdown after unselecting all
+  }
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
   }
@@ -54,7 +59,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         onClick={toggleDropdown}
       >
         <div className="flex items-center">
-          <span className="text-sm">Catégories</span>
+          <span>Catégories</span>
           {value.length > 0 && (
             <span className="ml-2 bg-blue-500 text-white rounded-md px-1 py-0">
               {value.length}
@@ -70,7 +75,15 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         />
       </div>
       {isOpen && (
-        <ul className="absolute right-0 z-10 mt-1 bg-white rounded max-h-48 overflow-y-auto shadow-lg min-w-max">
+        <ul className="absolute right-0 z-10 mt-1 bg-white rounded max-h-80 overflow-y-auto shadow-lg min-w-max">
+          {value.length > 0 && (
+            <li
+              className="flex justify-center items-center p-2 hover:bg-gray-100 cursor-pointer whitespace-nowrap"
+              onClick={handleUnselectAll}
+            >
+              -- Toutes --
+            </li>
+          )}
           {options.map(option => (
             <li
               key={option.value}

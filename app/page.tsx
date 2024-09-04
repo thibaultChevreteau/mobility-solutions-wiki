@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useMemo } from "react"
 import dynamic from "next/dynamic"
 import { categories } from "./lib/definitions"
+import { generateSlug } from "./lib/utils"
 
 function CategoryCard({
   name,
@@ -11,23 +12,16 @@ function CategoryCard({
   name: string
   description: string
 }) {
-  // Function to convert name to a URL-friendly alias
-  const generateSlug = (name: string) => {
-    return name
-      .toLowerCase() // Convert to lowercase
-      .normalize("NFD") // Normalize to decomposed form
-      .replace(/[\u0300-\u036f]/g, "") // Remove diacritical marks
-      .replace(/\s+/g, "-") // Replace spaces with hyphens
-      .replace(/[^\w-]+/g, "") // Remove all non-word chars
-  }
-
   const slug = generateSlug(name)
 
   return (
     <div className="bg-gray-200 p-6 rounded-lg min-w-64 max-w-96">
       <h3 className="text-xl font-bold mb-2">{name}</h3>
       <p className="mb-4">{description}</p>
-      <Link href={`/${slug}`} className="text-gray-500 underline">
+      <Link
+        href={`/solutions?category=${slug}`}
+        className="text-gray-500 underline"
+      >
         Aller à la catégorie -&gt;
       </Link>
     </div>

@@ -20,7 +20,7 @@ function CategoryCard({
       <h3 className="text-xl font-bold mb-2">{name}</h3>
       <p className="mb-4">{description}</p>
       <Link
-        href={`/solutions?category=${slug}`}
+        href={`/solutions?categories=${slug}`}
         className="text-gray-500 hover:underline"
       >
         Aller à la catégorie -&gt;

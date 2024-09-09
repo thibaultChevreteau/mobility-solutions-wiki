@@ -5,6 +5,7 @@ import { generateSlug } from "@/lib/utils"
 import { fetchSolutionOverview } from "@/lib/data"
 import Switch from "@/ui/switch"
 import MultiSelect from "@/ui/multiSelect"
+import Link from "next/link"
 
 const options = categories.map(category => ({
   label: category.name,
@@ -62,7 +63,8 @@ export default async function Page({
             return null
           }
           return (
-            <div
+            <Link
+              href={`/solutions/${cardData.id}`}
               key={cardData.id}
               className="relative mb-4 max-w-[20rem] rounded-lg shadow-md"
             >
@@ -96,7 +98,7 @@ export default async function Page({
                   </Tooltip>
                 </div>
               )}
-            </div>
+            </Link>
           )
         })}
       </div>

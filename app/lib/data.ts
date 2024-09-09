@@ -60,3 +60,37 @@ export async function fetchSolutionOverview() {
     throw new Error("Failed to fetch solutions card data.")
   }
 }
+
+export async function fetchSolutionById(id: string) {
+  try {
+    const result = await pool.query(
+      `
+      SELECT
+        id,
+        imgUrl,
+        category,
+        name,
+        description,
+        latitude,
+        longitude
+      FROM ${tableName}
+      WHERE id = $1
+    `,
+      [id]
+    )
+
+    if (result.rows.length === 0) {
+      throw new Error(`Solution with id ${id} not found.`)
+    }
+
+    const solution = result.rows[0]
+    solution.isLocal = isPointInPolygon(
+      [solution.latitude, solution.longitude],
+      pyreneesPolygon
+    )
+    return solution
+  } catch (err) {
+    console.error("Database Error:", err)
+    throw new Error(`Failed to fetch solution with id ${id}.`)
+  }
+}

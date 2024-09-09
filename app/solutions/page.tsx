@@ -1,57 +1,35 @@
-"use client"
-
 import Image from "next/image"
 import { Tooltip } from "@nextui-org/tooltip"
-import { useEffect, useState } from "react"
-import { categories, Solution } from "@/lib/definitions"
+import { categories } from "@/lib/definitions"
+import { generateSlug } from "@/lib/utils"
+import { fetchSolutionOverview } from "@/lib/data"
 import Switch from "@/ui/switch"
 import MultiSelect from "@/ui/multiSelect"
-import { useSearchParams } from "next/navigation"
-import { generateSlug } from "@/lib/utils"
 
 const options = categories.map(category => ({
   label: category.name,
   value: generateSlug(category.name),
 }))
 
-export default function Page() {
-  const [solutionsCardData, setSolutionsCardData] = useState<Solution[]>([])
-  const [localOnly, setLocalOnly] = useState(false)
-
-  const searchParams = useSearchParams()
-  const categoryParam = searchParams.get("category")
-
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-
-  useEffect(() => {
-    if (categoryParam) {
-      setSelectedCategories([categoryParam])
-    }
-  }, [categoryParam])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/solutions/overview")
-        const data = await response.json()
-        setSolutionsCardData(data)
-      } catch (error) {
-        console.error("Error fetching data:", error)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  const handleToggle = () => {
-    setLocalOnly(!localOnly)
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: {
+    categories?: string
+    solutions?: string
   }
+}) {
+  const solutionsOverview = await fetchSolutionOverview()
 
-  const handleCategoryChange = (selected: string[]) => {
-    setSelectedCategories(selected)
-  }
+  // Get categories and solutions from the URL
+  const categoriesQuery = searchParams?.categories || ""
+  const localOnly = searchParams?.solutions === "locales"
 
-  const filteredSolutions = solutionsCardData.filter(cardData => {
+  // Split categories if they exist in the URL
+  const selectedCategories = categoriesQuery ? categoriesQuery.split(",") : []
+
+  // Filter the data based on categories and solutions
+  const filteredSolutions = solutionsOverview.filter(cardData => {
     const matchesCategory =
       selectedCategories.length === 0 ||
       selectedCategories.some(
@@ -74,13 +52,9 @@ export default function Page() {
       <div className="flex text-gray-600 justify-center items-center border-y-2 mb-2 py-2 gap-10">
         <div className="flex">
           <p className="mx-2">Solutions locales</p>
-          <Switch isOn={localOnly} handleToggle={handleToggle} />
+          <Switch />
         </div>
-        <MultiSelect
-          options={options}
-          value={selectedCategories}
-          onChange={handleCategoryChange}
-        />
+        <MultiSelect options={options} />
       </div>
       <div className="flex flex-wrap gap-5 justify-center max-w-[1100px] mx-auto">
         {filteredSolutions.map(cardData => {

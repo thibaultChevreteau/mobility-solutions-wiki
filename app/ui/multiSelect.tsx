@@ -1,5 +1,8 @@
+"use client"
+
 import Image from "next/image"
-import React, { useState, useEffect, useRef } from "react"
+import { usePathname, useSearchParams, useRouter } from "next/navigation"
+import React, { useEffect, useRef, useState } from "react"
 
 interface Option {
   label: string
@@ -8,28 +11,40 @@ interface Option {
 
 interface MultiSelectProps {
   options: Option[]
-  value: string[]
-  onChange: (value: string[]) => void
 }
 
-const MultiSelect: React.FC<MultiSelectProps> = ({
-  options,
-  value,
-  onChange,
-}) => {
+const MultiSelect: React.FC<MultiSelectProps> = ({ options }) => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const { replace } = useRouter()
+
+  const categoriesQuery = searchParams.get("categories")
+  const selectedValues = categoriesQuery ? categoriesQuery.split(",") : []
+
   const handleToggle = (selectedValue: string) => {
-    const newSelectedItems = value.includes(selectedValue)
-      ? value.filter(item => item !== selectedValue)
-      : [...value, selectedValue]
-    onChange(newSelectedItems)
+    const newSelectedItems = selectedValues.includes(selectedValue)
+      ? selectedValues.filter(item => item !== selectedValue)
+      : [...selectedValues, selectedValue]
+
+    const params = new URLSearchParams(searchParams)
+    if (newSelectedItems.length > 0) {
+      params.set("categories", newSelectedItems.join(","))
+    } else {
+      params.delete("categories")
+    }
+
+    replace(`${pathname}?${params.toString()}`)
   }
 
   const handleUnselectAll = () => {
-    onChange([]) // Unselect all options
-    setIsOpen(false) // Close the dropdown after unselecting all
+    const params = new URLSearchParams(searchParams)
+    params.delete("categories")
+
+    replace(`${pathname}?${params.toString()}`)
+    setIsOpen(false)
   }
 
   const toggleDropdown = () => {
@@ -60,9 +75,9 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
       >
         <div className="flex items-center">
           <span>Catégories</span>
-          {value.length > 0 && (
+          {selectedValues.length > 0 && (
             <span className="ml-2 bg-blue-500 text-white rounded-md px-1 py-0">
-              {value.length}
+              {selectedValues.length}
             </span>
           )}
         </div>
@@ -76,7 +91,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
       </div>
       {isOpen && (
         <ul className="absolute right-0 z-10 mt-1 bg-white rounded max-h-80 overflow-y-auto shadow-lg min-w-max">
-          {value.length > 0 && (
+          {selectedValues.length > 0 && (
             <li
               className="flex justify-center italic items-center p-2 hover:bg-gray-100 cursor-pointer whitespace-nowrap"
               onClick={handleUnselectAll}
@@ -92,7 +107,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
             >
               <input
                 type="checkbox"
-                checked={value.includes(option.value)}
+                checked={selectedValues.includes(option.value)}
                 onChange={() => handleToggle(option.value)}
                 className="mr-2"
               />

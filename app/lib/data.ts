@@ -2,6 +2,7 @@
 
 import { unstable_noStore as noStore } from "next/cache"
 import { Pool } from "pg"
+import { isPointInPolygon, pyreneesPolygon } from "./utils"
 
 const caCertBase64 = process.env.RDS_CA_CERT_BASE64
 
@@ -31,7 +32,7 @@ const pool = new Pool({
 const tableName =
   process.env.NODE_ENV === "production" ? "solutions" : "solutionsdev"
 
-export async function fetchSolutionCardData() {
+export async function fetchSolutionOverview() {
   noStore()
   try {
     const result = await pool.query(`
@@ -46,8 +47,14 @@ export async function fetchSolutionCardData() {
       FROM ${tableName}
     `)
 
-    const solutionsCardData = result.rows
-    return solutionsCardData
+    // Map over the results to add the `isLocal` field
+    const enrichedResults = result.rows.map(row => ({
+      ...row,
+      isLocal: isPointInPolygon([row.latitude, row.longitude], pyreneesPolygon),
+    }))
+
+    const solutionsOverview = enrichedResults
+    return solutionsOverview
   } catch (err) {
     console.error("Database Error:", err)
     throw new Error("Failed to fetch solutions card data.")

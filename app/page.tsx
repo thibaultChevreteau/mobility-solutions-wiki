@@ -40,7 +40,7 @@ export default function HomePage() {
   )
 
   return (
-    <div className="font-sans px-6 overflow-hidden mt-16">
+    <div className="font-sans px-6 overflow-hidden">
       <div className="flex flex-col md:flex-row items-center">
         <div className="w-full md:w-1/2 px-6 md:px-20 text-xl">
           <h1 className="text-3xl font-bold mb-5">
@@ -59,7 +59,7 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-        <div className="w-full md:w-1/2 h-80 rounded-lg overflow-hidden mt-10 md:mt-0">
+        <div className="w-full md:w-1/2 h-80 rounded-lg overflow-hidden mt-10 md:mt-0 z-0">
           <Map />
         </div>
       </div>

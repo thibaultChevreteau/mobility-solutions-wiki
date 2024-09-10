@@ -28,7 +28,7 @@ function NavLinks({ toggleMenu }: { toggleMenu: () => void }) {
           {link.text}
         </Link>
       ))}
-      <NewSolutionButton />
+      <NewSolutionButton toggleMenu={toggleMenu} />
     </>
   )
 }
@@ -41,7 +41,7 @@ export default function NavBar() {
   }
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white max-w-7xl fixed top-0 z-50">
       <div className="border-b-2">
         <nav className="px-6 h-16 flex items-center gap-4">
           <Link

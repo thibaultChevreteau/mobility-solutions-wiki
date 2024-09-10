@@ -24,7 +24,7 @@ export default function RootLayout({
         className={`${inter.className} relative max-w-7xl m-auto flex flex-col min-h-screen`}
       >
         <NavBar />
-        <div className="flex-grow">{children}</div>
+        <div className="flex-grow mt-28">{children}</div>
         <Footer />
       </body>
     </html>

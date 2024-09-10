@@ -44,7 +44,7 @@ export default async function Page({
 
   return (
     <div>
-      <h1 className="text-3xl text-center font-bold mb-5 mt-16">
+      <h1 className="text-3xl text-center font-bold mb-5">
         Solutions de mobilité
       </h1>
       <p className="text-center text-gray-600 mb-10 mx-4">

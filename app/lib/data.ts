@@ -2,7 +2,7 @@
 
 import { unstable_noStore as noStore } from "next/cache"
 import { Pool } from "pg"
-import { isPointInPolygon, pyreneesPolygon } from "./utils"
+import { generateSlug, isPointInPolygon, pyreneesPolygon } from "./utils"
 
 const caCertBase64 = process.env.RDS_CA_CERT_BASE64
 
@@ -51,6 +51,7 @@ export async function fetchSolutionOverview() {
     const enrichedResults = result.rows.map(row => ({
       ...row,
       isLocal: isPointInPolygon([row.latitude, row.longitude], pyreneesPolygon),
+      slug: generateSlug(row.name),
     }))
 
     const solutionsOverview = enrichedResults
@@ -72,7 +73,10 @@ export async function fetchSolutionById(id: string) {
         name,
         description,
         latitude,
-        longitude
+        longitude,
+        website,
+        contact,
+        details
       FROM ${tableName}
       WHERE id = $1
     `,

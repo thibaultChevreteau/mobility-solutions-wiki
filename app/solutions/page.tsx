@@ -64,7 +64,7 @@ export default async function Page({
           }
           return (
             <Link
-              href={`/solutions/${cardData.id}`}
+              href={`/solutions/${cardData.slug}/${cardData.id}`}
               key={cardData.id}
               className="relative mb-4 max-w-[20rem] rounded-lg shadow-md"
             >

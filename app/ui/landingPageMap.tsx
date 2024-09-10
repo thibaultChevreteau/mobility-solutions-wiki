@@ -7,14 +7,13 @@ import "leaflet-defaulticon-compatibility"
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
 import React, { useEffect, useState } from "react"
 
-// Define a new type that includes the name
 type SolutionLocation = {
   latitude: string
   longitude: string
   name: string
 }
 
-const Map: React.FC = () => {
+const LandingPageMap: React.FC = () => {
   const [locations, setLocations] = useState<
     { position: [number, number]; name: string }[]
   >([])
@@ -71,4 +70,4 @@ const Map: React.FC = () => {
   )
 }
 
-export default Map
+export default LandingPageMap

@@ -32,7 +32,7 @@ function CategoryCard({
 export default function HomePage() {
   const Map = useMemo(
     () =>
-      dynamic(() => import("../app/ui/map"), {
+      dynamic(() => import("./ui/landingPageMap"), {
         loading: () => <p>A map is loading</p>,
         ssr: false,
       }),
@@ -48,7 +48,7 @@ export default function HomePage() {
           </h1>
           <p>
             Ce wiki collaboratif vise à recenser et présenter les solutions de
-            mobilité durables dans les Pyrénées et au delà.
+            mobilité durables dans les Pyrénées et au-delà.
           </p>
           <div className="mt-10">
             <Link

@@ -17,31 +17,31 @@ export const categories = [
   {
     name: "Véhicule",
     description:
-      "Solutions innovantes pour véhicules, incluant des technologies écoénergétiques, des systèmes de sécurité avancés et des innovations en conduite autonome.",
+      "Moyens de transports de personnes ou de biens, que ce soit pour un usage privé (e. g. vélo ou voiture), public (e. g. vélib ou taxi) ou collectif (e. g. bus ou train).",
   },
   {
     name: "Aménagement",
     description:
-      "Idées d'aménagement durable pour optimiser les espaces liés à la mobilité, comme les infrastructures de transport et les stations de recharge.",
+      "Innovation technique ou organisationnelle ayant un impact situé géographiquement, que ce soit à l’échelle du territoire, d’un quartier ou d’un groupement d’usager.",
   },
   {
     name: "Application",
     description:
-      "Applications intelligentes pour la mobilité, conçues pour améliorer les trajets, optimiser les itinéraires et faciliter la gestion des transports.",
+      "Produits et services numériques répondant à des problématiques de mobilités : informer, coordonner, gérer et superviser.",
   },
   {
     name: "Sensibilisation",
     description:
-      "Ressources innovantes pour sensibiliser et éduquer sur des enjeux de mobilité durable et des pratiques de transport responsables.",
+      "Ressources favorisant l’adoption des solutions de mobilités durables, par la prise de conscience des enjeux liés au déplacement et l’incitation à l’action.",
   },
   {
     name: "Atelier",
     description:
-      "Ateliers pratiques sur des sujets de mobilité, allant des innovations en transport aux nouvelles technologies en infrastructures.",
+      "Espaces collaboratifs ou privés, engagés pour une mobilités durables, donnant accès à des moyens de production et de réparation de véhicules.",
   },
   {
     name: "Autre",
     description:
-      "Solutions variées et durables liées à la mobilité, couvrant des besoins spécifiques non abordés ailleurs dans le domaine du transport.",
+      "Toutes solutions ne rentrant pas dans les catégories actuelles du Wiki.",
   },
 ]

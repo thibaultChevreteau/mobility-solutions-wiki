@@ -16,9 +16,9 @@ function CategoryCard({
   const slug = generateSlug(name)
 
   return (
-    <div className="bg-gray-200 p-6 rounded-lg min-w-64 max-w-96">
+    <div className="flex flex-col bg-gray-200 p-6 rounded-lg min-w-64 max-w-96">
       <h3 className="text-xl font-bold mb-2">{name}</h3>
-      <p className="mb-4">{description}</p>
+      <p className="mb-4 grow">{description}</p>
       <Link
         href={`/solutions?categories=${slug}`}
         className="text-gray-500 hover:underline"

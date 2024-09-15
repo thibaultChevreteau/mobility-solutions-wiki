@@ -10,7 +10,14 @@ export default async function Page({
   params: { id: string; slug: string }
 }) {
   const id = params.id
+  console.log("params", params)
+
+  console.log("id", id)
+  // if (!/^\d+$/.test(id)) {
+  //   throw new Error("Invalid ID format")
+  // }
   const slug = params.slug
+
   const solution = await fetchSolutionById(id)
 
   const location: LatLngTuple = [solution.latitude, solution.longitude]

@@ -54,7 +54,7 @@ export default function NavBar() {
             }}
           >
             <Image
-              src="pyreneesmobilite_logo.svg"
+              src="/pyreneesmobilite_logo.svg"
               width={0}
               height={0}
               alt="Company logo"

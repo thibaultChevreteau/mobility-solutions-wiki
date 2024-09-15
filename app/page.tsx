@@ -2,7 +2,7 @@ import Link from "next/link"
 
 import { useMemo } from "react"
 import dynamic from "next/dynamic"
-import { categories } from "./lib/definitions"
+import { categories } from "./lib/staticData"
 import { generateSlug } from "./lib/utils"
 import NewSolutionButton from "./ui/newSolutionButton"
 

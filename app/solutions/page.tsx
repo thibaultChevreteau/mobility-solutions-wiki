@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { Tooltip } from "@nextui-org/tooltip"
-import { categories } from "@/lib/definitions"
+import { categories } from "@/lib/staticData"
 import { generateSlug } from "@/lib/utils"
 import { fetchSolutionOverview } from "@/lib/data"
 import Switch from "@/ui/switch"

@@ -1,5 +1,5 @@
 import { fetchSolutionOverview } from "@/lib/data"
-import { categories } from "@/lib/definitions"
+import { categories } from "@/lib/staticData"
 import { generateSlug } from "@/lib/utils"
 
 const options = categories.map(category => ({

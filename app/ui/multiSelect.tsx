@@ -82,7 +82,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({ options }) => {
           )}
         </div>
         <Image
-          src="down-arrow.svg"
+          src="/down-arrow.svg"
           alt="down arrow"
           className="ml-2"
           width={10}

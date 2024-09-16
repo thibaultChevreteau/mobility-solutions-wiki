@@ -1,43 +1,27 @@
-import { fetchSolutionOverview } from "@/lib/data"
-import { categories } from "@/lib/staticData"
-import { generateSlug } from "@/lib/utils"
+"use client"
 
-const options = categories.map(category => ({
-  label: category.name,
-  value: generateSlug(category.name),
-}))
+import { useUser } from "@auth0/nextjs-auth0/client"
+import React from "react"
+import { SignupButton } from "@/ui/signup-button"
+import { LoginButton } from "@/ui/login-buton"
+import { LogoutButton } from "@/ui/logout-button"
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams?: {
-    categories?: string
-    solutions?: string
-  }
-}) {
-  const solutionsOverview = await fetchSolutionOverview()
+export default function Page() {
+  const { user } = useUser()
 
-  // Get categories and solutions from the URL
-  const categoriesQuery = searchParams?.categories || ""
-  const localOnly = searchParams?.solutions === "locales"
-
-  // Split categories if they exist in the URL
-  const selectedCategories = categoriesQuery ? categoriesQuery.split(",") : []
-
-  // Filter the data based on categories and solutions
-  const filteredSolutions = solutionsOverview.filter(cardData => {
-    const matchesCategory =
-      selectedCategories.length === 0 ||
-      selectedCategories.some(
-        selectedCategory => selectedCategory === generateSlug(cardData.category)
-      )
-
-    const matchesLocal = !localOnly || cardData.isLocal
-
-    return matchesCategory && matchesLocal
-  })
-
-  console.log("filteredSolutions", filteredSolutions)
-
-  return <div></div>
+  return (
+    <div className="nav-bar__buttons">
+      {!user && (
+        <>
+          <SignupButton />
+          <LoginButton />
+        </>
+      )}
+      {user && (
+        <>
+          <LogoutButton />
+        </>
+      )}
+    </div>
+  )
 }

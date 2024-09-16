@@ -4,6 +4,7 @@ import "./globals.css"
 import NavBar from "./ui/navbar"
 import { Footer } from "./ui/footer"
 import { Analytics } from "@vercel/analytics/react"
+import { UserProvider } from "@auth0/nextjs-auth0/client"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,10 +25,12 @@ export default function RootLayout({
       <body
         className={`${inter.className} relative max-w-7xl m-auto flex flex-col min-h-screen`}
       >
-        <NavBar />
-        <div className="flex-grow mt-28">{children}</div>
-        <Footer />
-        <Analytics />
+        <UserProvider>
+          <NavBar />
+          <div className="flex-grow mt-28">{children}</div>
+          <Footer />
+          <Analytics />
+        </UserProvider>
       </body>
     </html>
   )

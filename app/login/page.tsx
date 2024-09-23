@@ -10,7 +10,7 @@ export default function Page() {
   const { user } = useUser()
 
   return (
-    <div className="nav-bar__buttons">
+    <div>
       {!user && (
         <>
           <SignupButton />

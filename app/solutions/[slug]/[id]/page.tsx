@@ -3,6 +3,7 @@ import MarkdownRenderer from "@/lib/reactMarkdownRender"
 import MapLoader from "@/ui/mapLoader"
 import Image from "next/image"
 import { LatLngTuple } from "leaflet"
+import Link from "next/link"
 
 export default async function Page({
   params,
@@ -36,6 +37,20 @@ export default async function Page({
             height={20}
           />
         </a>
+
+        <Link href="/solutions" className="flex gap-2 -mt-3 mb-8">
+          <Image
+            src="/down-arrow.svg"
+            alt="arrow"
+            width={10}
+            height={10}
+            className="rotate-90"
+          />
+          <p className="text-xs font-light hover:font-normal">
+            Retour aux solutions
+          </p>
+        </Link>
+        <p className="mb-2 text-sm text-gray-400">{solution.category}</p>
         <div className="flex gap-4">
           <h1 className="text-2xl font-bold">{solution.name}</h1>
           {solution.isLocal && (
@@ -47,9 +62,7 @@ export default async function Page({
             />
           )}
         </div>
-        <p className="text-body text-base text-gray-600">
-          {solution.description}
-        </p>
+        <p className="text-base text-gray-600">{solution.description}</p>
         <div className="flex flex-wrap gap-4 justify-center my-4">
           <Image
             src={solution.imgurl}
@@ -58,7 +71,7 @@ export default async function Page({
             height={300}
             className="object-cover rounded-lg max-h-96"
           />
-          <div className="rounded-lg shadow-md w-full max-w-md">
+          <div className="rounded-lg shadow-md w-full max-w-md z-0">
             <MapLoader location={location} />
             <div className="p-4">
               <div className="flex grow gap-4">

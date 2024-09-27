@@ -5,7 +5,15 @@ import { pool, tableName } from "./dbClient"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { getAccessToken } from "@auth0/nextjs-auth0"
-import { jwtDecode, JwtPayload } from "jwt-decode" // Ensure this is installed if not using next-auth for decoding
+import { jwtDecode, JwtPayload } from "jwt-decode"
+import ImageKit from "imagekit"
+import { checkPermission } from "./utils"
+
+const imageKit = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY!,
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT!,
+})
 
 const FormSchema = z.object({
   id: z.string(),
@@ -28,19 +36,17 @@ interface CustomJwtPayload extends JwtPayload {
 }
 
 export async function newSolution(formData: FormData) {
-  const { accessToken } = await getAccessToken()
+  await checkPermission("write:solutions")
 
-  if (!accessToken) {
-    throw new Error("Access token is missing.")
-  }
+  const image = formData.get("image") as unknown as File
 
-  const decodedToken = jwtDecode<CustomJwtPayload>(accessToken)
+  const arrayBuffer = await image.arrayBuffer()
+  const buffer = Buffer.from(arrayBuffer)
 
-  const hasPermission = decodedToken.permissions?.includes("write:solutions")
-
-  if (!hasPermission) {
-    throw new Error("You do not have permission to add a new solution.")
-  }
+  const imageData = await imageKit.upload({
+    file: buffer,
+    fileName: image.name,
+  })
 
   const {
     name,
@@ -57,8 +63,8 @@ export async function newSolution(formData: FormData) {
     name: formData.get("name"),
     description: formData.get("description"),
     category: formData.get("category"),
-    imgurl: formData.get("imgurl"),
-    imgId: formData.get("imgId"),
+    imgurl: imageData.url,
+    imgId: imageData.fileId,
     latitude: formData.get("latitude"),
     longitude: formData.get("longitude"),
     website: formData.get("website") || undefined,

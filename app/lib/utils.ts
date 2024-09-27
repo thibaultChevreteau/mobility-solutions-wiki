@@ -36,3 +36,27 @@ export const isPointInPolygon = (
 
   return inside
 }
+
+import { jwtDecode } from "jwt-decode"
+import { getAccessToken } from "@auth0/nextjs-auth0"
+
+interface CustomJwtPayload {
+  permissions?: string[]
+}
+
+export async function checkPermission(
+  requiredPermission: string
+): Promise<void> {
+  const { accessToken } = await getAccessToken()
+
+  if (!accessToken) {
+    throw new Error("Access token is missing.")
+  }
+
+  const decodedToken = jwtDecode<CustomJwtPayload>(accessToken)
+  const hasPermission = decodedToken.permissions?.includes(requiredPermission)
+
+  if (!hasPermission) {
+    throw new Error("You do not have permission to perform this action.")
+  }
+}

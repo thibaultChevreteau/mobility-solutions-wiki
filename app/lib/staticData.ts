@@ -60,3 +60,18 @@ export const faqData = [
       "Les solutions génériques sont des initiatives applicables à différentes situations de mobilité. Elles sont analysées en fonction de leur impact écologique, économique et social.",
   },
 ]
+
+export const solutionDetailsPlaceHolder = `Utilisez la syntaxe MarkDown pour mettre en forme votre description.
+
+# Titre
+Votre texte de description
+
+## Sous-titre
+Exemple de liste :
+* Item 1
+* Item 2
+* Item 3
+
+## Exemple de lien url :
+[Texte de mon lien](https://monlien.fr)
+`

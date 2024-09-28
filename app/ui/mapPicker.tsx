@@ -36,7 +36,7 @@ const SolutionMap: React.FC<{
     <MapContainer
       center={center}
       zoom={7}
-      style={{ height: "250px", width: "50%" }}
+      style={{ height: "50%", width: "100%" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

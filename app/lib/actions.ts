@@ -38,8 +38,31 @@ interface CustomJwtPayload extends JwtPayload {
 export async function newSolution(formData: FormData) {
   await checkPermission("write:solutions")
 
-  const image = formData.get("image") as unknown as File
+  console.log(formData)
 
+  // First, parse the form data (excluding imgurl and imgId)
+  const NewSolutionWithoutImage = NewSolution.omit({
+    imgurl: true,
+    imgId: true,
+  }).safeParse({
+    name: formData.get("name"),
+    description: formData.get("description"),
+    category: formData.get("category"),
+    latitude: formData.get("latitude"),
+    longitude: formData.get("longitude"),
+    website: formData.get("website") || undefined,
+    contact: formData.get("contact") || undefined,
+    details: formData.get("details") || undefined,
+  })
+
+  // If validation fails, handle the error
+  if (!NewSolutionWithoutImage.success) {
+    console.error("Validation error:", NewSolutionWithoutImage.error)
+    throw new Error("Invalid form data")
+  }
+
+  // Proceed with image upload if validation passes
+  const image = formData.get("image") as unknown as File
   const arrayBuffer = await image.arrayBuffer()
   const buffer = Buffer.from(arrayBuffer)
 
@@ -48,6 +71,7 @@ export async function newSolution(formData: FormData) {
     fileName: image.name,
   })
 
+  // Parse the form data again, now including imgurl and imgId
   const {
     name,
     description,
@@ -85,6 +109,7 @@ export async function newSolution(formData: FormData) {
     details,
   })
 
+  // Insert into the database
   await pool.query(
     `INSERT INTO ${tableName} (name, description, category, imgurl, imgId, latitude, longitude, website, contact, details) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
     [
@@ -101,6 +126,7 @@ export async function newSolution(formData: FormData) {
     ]
   )
 
+  // Revalidate and redirect
   revalidatePath("/solutions")
   redirect("/solutions")
 }
